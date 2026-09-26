@@ -12,8 +12,19 @@ public class Oferta {
     private PeriodoMatricula periodo;
     private List<Matricula> matriculas;
 
-    public void adicionarMatricula(Matricula matricula) { throw new UnsupportedOperationException("Implementar na Sprint 3"); }
-    public void removerMatricula(Matricula matricula) { throw new UnsupportedOperationException("Implementar na Sprint 3"); }
-    public boolean possuiVaga() { throw new UnsupportedOperationException("Implementar na Sprint 3"); }
-    public void encerrar() { throw new UnsupportedOperationException("Implementar na Sprint 3"); }
+    public void adicionarMatricula(Matricula matricula) {
+        throw new UnsupportedOperationException("Implementar na Sprint 3");
+    }
+
+    public void removerMatricula(Matricula matricula) {
+        throw new UnsupportedOperationException("Implementar na Sprint 3");
+    }
+
+    public boolean possuiVaga() {
+        throw new UnsupportedOperationException("Implementar na Sprint 3");
+    }
+
+    public void encerrar() {
+        throw new UnsupportedOperationException("Implementar na Sprint 3");
+    }
 }

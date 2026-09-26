@@ -7,5 +7,7 @@ public class Matricula {
     private Aluno aluno;
     private Oferta oferta;
 
-    public void cancelar() { throw new UnsupportedOperationException("Implementar na Sprint 3"); }
+    public void cancelar() {
+        throw new UnsupportedOperationException("Implementar na Sprint 3");
+    }
 }

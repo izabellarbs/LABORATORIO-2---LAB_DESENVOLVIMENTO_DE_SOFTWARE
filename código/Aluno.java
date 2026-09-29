@@ -1,18 +1,18 @@
-import java.util.List;
-
+import java.util.*;
 public class Aluno extends Usuario {
-    private String matricula;
-    private List<Matricula> matriculas;
-
-    public List<Oferta> consultarOfertas() {
-        throw new UnsupportedOperationException("Implementar na Sprint 3");
+    private static final long serialVersionUID = 1L;
+    private final String matricula;
+    private final List<Matricula> matriculas = new ArrayList<>();
+    private transient SistemaMatriculas sistema;
+    public Aluno(Long id, String nome, String login, String senha, String matricula) {
+        super(id,nome,login,senha); this.matricula=matricula;
     }
-
-    public Matricula realizarMatricula(Oferta oferta) {
-        throw new UnsupportedOperationException("Implementar na Sprint 3");
-    }
-
-    public void cancelarMatricula(Matricula matricula) {
-        throw new UnsupportedOperationException("Implementar na Sprint 3");
-    }
+    Aluno(Long id,String nome,String login,String sal,String hashSenha,String matricula) { super(id,nome,login,sal,hashSenha,true); this.matricula=matricula; }
+    public String getMatricula() { return matricula; }
+    public List<Matricula> getMatriculas() { return Collections.unmodifiableList(matriculas); }
+    void adicionar(Matricula m) { matriculas.add(m); }
+    void conectar(SistemaMatriculas s) { sistema=s; }
+    public List<Oferta> consultarOfertas() { return sistema.consultarOfertas(null); }
+    public Matricula realizarMatricula(Oferta oferta) { return sistema.realizarMatricula(this,oferta); }
+    public void cancelarMatricula(Matricula matricula) { sistema.cancelarMatricula(this,matricula); }
 }

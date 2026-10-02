@@ -190,4 +190,8 @@ public class SistemaMatriculas implements Serializable {
         for (Oferta o : p.getOfertas())
             o.encerrar();
     }
+
+    public void exibirNotificacoesCobranca() {
+        sistemaCobrancas.exibirNotificacoes();
+    }
 }

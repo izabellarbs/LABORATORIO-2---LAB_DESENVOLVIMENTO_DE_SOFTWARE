@@ -1,3 +1,5 @@
+package model;
+
 import java.io.Serializable;
 
 public class Disciplina implements Serializable {
@@ -41,3 +43,4 @@ public class Disciplina implements Serializable {
                 curso.getNome());
     }
 }
+

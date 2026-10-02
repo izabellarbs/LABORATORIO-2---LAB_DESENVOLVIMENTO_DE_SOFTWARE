@@ -1,8 +1,9 @@
+package model;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class SistemaCobrancas implements Serializable {
@@ -39,43 +40,12 @@ public class SistemaCobrancas implements Serializable {
         registrar("CANCELAMENTO", m);
     }
 
-    public void exibirNotificacoes() {
-        if (!Files.exists(arquivo)) {
-            System.out.println("Nenhuma notificação de cobrança.");
-            return;
-        }
+    public List<String> lerNotificacoes() {
+        if (!Files.exists(arquivo))
+            return List.of();
 
         try {
-            List<String> linhas = Files.readAllLines(arquivo);
-
-            if (linhas.isEmpty()) {
-                System.out.println("Nenhuma notificação de cobrança.");
-                return;
-            }
-
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-            System.out.println("\n========== NOTIFICAÇÕES DE COBRANÇA ==========");
-
-            for (String linha : linhas) {
-                if (linha.isBlank()) continue;
-
-                String[] dados = linha.split(";");
-
-                LocalDateTime data = LocalDateTime.parse(dados[0]);
-
-                System.out.println();
-                System.out.println("Data: " + data.format(formato));
-                System.out.println("Tipo: " + dados[1]);
-                System.out.println("Matrícula ID: " + dados[2]);
-                System.out.println("Aluno: " + dados[4]);
-                System.out.println("Matrícula do aluno: " + dados[3]);
-                System.out.println("Semestre: " + dados[5]);
-                System.out.println("Disciplina: " + dados[6]);
-            }
-
-            System.out.println("\n================================================");
-
+            return Files.readAllLines(arquivo);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao ler notificações de cobrança.", e);
         }

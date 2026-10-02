@@ -1,3 +1,5 @@
+package model;
+
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -68,3 +70,4 @@ public abstract class Usuario implements Serializable {
         return login;
     }
 }
+

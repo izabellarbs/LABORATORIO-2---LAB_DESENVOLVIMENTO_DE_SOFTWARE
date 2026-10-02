@@ -1,3 +1,5 @@
+package model;
+
 public class Secretaria extends Usuario {
     private static final long serialVersionUID = 1L;
     private transient SistemaMatriculas sistema;
@@ -42,3 +44,4 @@ public class Secretaria extends Usuario {
         sistema.encerrarPeriodo(p);
     }
 }
+

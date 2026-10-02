@@ -1,3 +1,5 @@
+package model;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -57,3 +59,4 @@ public class Curso implements Serializable {
                 id, nome, creditos, disciplinasTexto);
     }
 }
+

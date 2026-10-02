@@ -1,3 +1,5 @@
+package model;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -166,3 +168,4 @@ public final class PersistenciaArquivo {
         return r.toArray(new String[0]);
     }
 }
+

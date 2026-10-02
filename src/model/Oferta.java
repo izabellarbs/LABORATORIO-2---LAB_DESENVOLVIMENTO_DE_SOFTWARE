@@ -1,3 +1,5 @@
+package model;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -127,3 +129,4 @@ public class Oferta implements Serializable {
                 situacao);
     }
 }
+

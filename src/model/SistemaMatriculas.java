@@ -1,3 +1,5 @@
+package model;
+
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.*;
@@ -191,7 +193,8 @@ public class SistemaMatriculas implements Serializable {
             o.encerrar();
     }
 
-    public void exibirNotificacoesCobranca() {
-        sistemaCobrancas.exibirNotificacoes();
+    public List<String> lerNotificacoesCobranca() {
+        return sistemaCobrancas.lerNotificacoes();
     }
 }
+

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.*;
 
 public class Professor extends Usuario {
@@ -46,3 +48,4 @@ public class Professor extends Usuario {
                 getNome());
     }
 }
+

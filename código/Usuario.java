@@ -8,13 +8,15 @@ public abstract class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Long id;
     private final String nome, login, sal, hashSenha;
+    private static long proximoId = 1;
 
-    protected Usuario(Long id, String nome, String login, String senha) {
-        this.id = id;
+    protected Usuario(String nome, String login, String senha) {
+        this.id = proximoId++;
         this.nome = nome;
         this.login = login;
-        if (senha == null || senha.isEmpty())
-            throw new IllegalArgumentException("Senha obrigatória");
+        
+        if (senha == null || senha.isEmpty())  throw new IllegalArgumentException("Senha obrigatória");
+
         byte[] random = new byte[16];
         new SecureRandom().nextBytes(random);
         this.sal = Base64.getEncoder().encodeToString(random);
@@ -27,6 +29,8 @@ public abstract class Usuario implements Serializable {
         this.login = login;
         this.sal = sal;
         this.hashSenha = hashSenha;
+        if (id >= proximoId)
+            proximoId = id + 1;
     }
 
     String getSal() {

@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class PeriodoMatricula implements Serializable {
@@ -60,5 +61,21 @@ public class PeriodoMatricula implements Serializable {
 
     public void encerrar() {
         situacao = SituacaoPeriodo.ENCERRADO;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        return String.format(
+                """
+                        Semestre: %s
+                        Período: %s até %s
+                        Situação: %s
+                        """,
+                semestre,
+                inicio.format(formato),
+                fim.format(formato),
+                situacao);
     }
 }

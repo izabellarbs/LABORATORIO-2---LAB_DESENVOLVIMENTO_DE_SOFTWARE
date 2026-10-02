@@ -5,8 +5,8 @@ public class Professor extends Usuario {
     private final String registroFuncional;
     private final List<Oferta> ofertas = new ArrayList<>();
 
-    public Professor(Long id, String nome, String login, String senha, String registro) {
-        super(id, nome, login, senha);
+    public Professor(String nome, String login, String senha, String registro) {
+        super(nome, login, senha);
         this.registroFuncional = registro;
     }
 
@@ -35,5 +35,14 @@ public class Professor extends Usuario {
             if (m.getSituacao() == SituacaoMatricula.ATIVA)
                 alunos.add(m.getAluno());
         return alunos;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ID: %d | Registro: %s | %s",
+                getId(),
+                registroFuncional,
+                getNome());
     }
 }

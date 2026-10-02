@@ -90,7 +90,6 @@ public final class PersistenciaArquivo {
                     o.adicionarMatriculaCarregada(m);
                 }
             }
-            s.atualizarProximoId();
             return s;
         } catch (IOException e) {
             throw new IllegalStateException("Não foi possível ler os dados", e);

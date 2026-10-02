@@ -7,7 +7,7 @@ PROFESSOR;6;Mariana Costa;mariana;UVJTVFVWV1hZWltcXV5fYA==;P2B+802DlHKDJsBYwiTpX
 CURSO;7;Engenharia de Software;240
 CURSO;8;Sistemas de Informação;240
 DISCIPLINA;AEDS2;Algoritmos e Estruturas de Dados II;4;7
-DISCIPLINA;PROJETO;Projeto de Software;4;7
+DISCIPLINA;PROJSW;Projeto de Software;4;7
 DISCIPLINA;REDES;Redes de Computadores;4;7
 DISCIPLINA;BD1;Banco de Dados I;4;8
 PERIODO;2026/2;2026-09-01T00:00;2026-10-31T23:59;ABERTO

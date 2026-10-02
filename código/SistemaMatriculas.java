@@ -12,14 +12,9 @@ public class SistemaMatriculas implements Serializable {
     private final List<Oferta> ofertas = new ArrayList<>();
     private final List<PeriodoMatricula> periodos = new ArrayList<>();
     private final SistemaCobrancas sistemaCobrancas;
-    private long proximoId = 1;
 
     public SistemaMatriculas(Path arquivoCobrancas) {
         sistemaCobrancas = new SistemaCobrancas(arquivoCobrancas);
-    }
-
-    public long novoId() {
-        return proximoId++;
     }
 
     public List<Aluno> getAlunos() {
@@ -171,7 +166,7 @@ public class SistemaMatriculas implements Serializable {
         }
         if (qtd >= (oferta.getTipo() == TipoOferta.OBRIGATORIA ? 4 : 2))
             throw new IllegalArgumentException("Limite de opções desse tipo atingido");
-        Matricula m = new Matricula(novoId(), aluno, oferta);
+        Matricula m = new Matricula(aluno, oferta);
         sistemaCobrancas.notificarMatricula(m);
         aluno.adicionar(m);
         oferta.adicionarMatricula(m);
@@ -194,19 +189,5 @@ public class SistemaMatriculas implements Serializable {
         p.encerrar();
         for (Oferta o : p.getOfertas())
             o.encerrar();
-    }
-
-    public void atualizarProximoId() {
-        long maior = 0;
-        for (Usuario u : usuarios())
-            maior = Math.max(maior, u.getId());
-        for (Curso c : cursos)
-            maior = Math.max(maior, c.getId());
-        for (Oferta o : ofertas)
-            maior = Math.max(maior, o.getId());
-        for (Aluno a : alunos)
-            for (Matricula m : a.getMatriculas())
-                maior = Math.max(maior, m.getId());
-        proximoId = maior + 1;
     }
 }

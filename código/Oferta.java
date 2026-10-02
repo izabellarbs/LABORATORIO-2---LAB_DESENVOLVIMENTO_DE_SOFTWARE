@@ -11,15 +11,24 @@ public class Oferta implements Serializable {
     private final Disciplina disciplina;
     private final Professor professor;
     private PeriodoMatricula periodo;
+    private static long proximoId = 1;
     private final List<Matricula> matriculas = new ArrayList<>();
 
-    public Oferta(Long id, String semestre, TipoOferta tipo, Disciplina disciplina, Professor professor) {
-        this(id, semestre, tipo, disciplina, professor, SituacaoOferta.ABERTA);
+    public Oferta(String semestre, TipoOferta tipo, Disciplina disciplina, Professor professor) {
+        this.id = proximoId++;
+        this.semestre = semestre;
+        this.tipo = tipo;
+        this.disciplina = disciplina;
+        this.professor = professor;
+        this.situacao = SituacaoOferta.ABERTA;
     }
 
-    Oferta(Long id, String semestre, TipoOferta tipo, Disciplina disciplina, Professor professor,
+    public Oferta(Long id, String semestre, TipoOferta tipo, Disciplina disciplina, Professor professor,
             SituacaoOferta situacao) {
         this.id = id;
+        if (id >= proximoId)
+            proximoId = id + 1;
+
         this.semestre = semestre;
         this.tipo = tipo;
         this.disciplina = disciplina;
@@ -95,5 +104,26 @@ public class Oferta implements Serializable {
 
     public void encerrar() {
         situacao = getInscritos() >= limiteMinimo ? SituacaoOferta.ATIVA : SituacaoOferta.CANCELADA;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                """
+                        ID: %d | Semestre: %s
+                        Disciplina: %s - %s
+                        Professor: %s
+                        Tipo: %s
+                        Alunos: %d/60
+                        Situação: %s
+                        """,
+                id,
+                semestre,
+                disciplina.getCodigo(),
+                disciplina.getNome(),
+                professor.getNome(),
+                tipo,
+                getInscritos(),
+                situacao);
     }
 }

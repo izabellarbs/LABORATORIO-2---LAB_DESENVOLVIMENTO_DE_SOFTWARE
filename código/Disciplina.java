@@ -30,4 +30,14 @@ public class Disciplina implements Serializable {
     public Curso getCurso() {
         return curso;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "%s | %s%nCréditos: %d | Curso: %s",
+                codigo,
+                nome,
+                creditos,
+                curso.getNome());
+    }
 }

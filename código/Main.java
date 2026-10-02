@@ -24,7 +24,7 @@ public class Main {
                 sistema = PersistenciaArquivo.carregar(dados, cobrancas);
             else {
                 sistema = new SistemaMatriculas(cobrancas);
-                sistema.cadastrarSecretaria(new Secretaria(sistema.novoId(), "Secretaria", "admin", "admin123"));
+                sistema.cadastrarSecretaria(new Secretaria("Secretaria", "admin", "admin123"));
                 PersistenciaArquivo.salvar(dados, sistema);
                 System.out.println("Primeiro acesso: admin / admin123. Altere a senha antes de uso real.");
             }
@@ -83,10 +83,35 @@ public class Main {
                 }
                 System.out.println("Bem-vindo(a), " + usuario.getNome());
                 while (true) {
-                    System.out.println("\n0 Voltar | 1 Consultar ofertas | " +
-                            (usuario instanceof Secretaria ? "2 Cadastros | 3 Período | 4 Encerrar período"
-                                    : usuario instanceof Aluno ? "2 Matricular | 3 Minhas matrículas | 4 Cancelar"
-                                            : "2 Minhas turmas | 3 Consultar alunos"));
+                    if (usuario instanceof Secretaria) {
+
+                        System.out.println(
+                                "\n========== MENU SECRETARIA ==========\n" +
+                                        "1 - Consultar ofertas\n" +
+                                        "2 - Gerenciar cadastros\n" +
+                                        "3 - Definir período de matrícula\n" +
+                                        "4 - Encerrar período de matrícula\n" +
+                                        "0 - Voltar\n" +
+                                        "=====================================");
+                    } else if (usuario instanceof Aluno) {
+                        System.out.println(
+                                "\n========== MENU ALUNO ==========\n" +
+                                        "1 - Consultar ofertas\n" +
+                                        "2 - Realizar matrícula\n" +
+                                        "3 - Minhas matrículas\n" +
+                                        "4 - Cancelar matrícula\n" +
+                                        "0 - Voltar\n" +
+                                        "================================");
+                    } else {
+                        System.out.println(
+                                "\n========== MENU PROFESSOR ==========\n" +
+                                        "1 - Consultar ofertas\n" +
+                                        "2 - Minhas turmas\n" +
+                                        "3 - Consultar alunos da turma\n" +
+                                        "0 - Voltar\n" +
+                                        "====================================");
+                    }
+
                     String opcao = ler("Opção");
                     if (opcao.equals("0"))
                         break;
@@ -113,10 +138,19 @@ public class Main {
 
     private void listarOfertas() {
         String semestre = ler("Semestre (ex.: 2026/2; digite * para todos)");
-        for (Oferta o : sistema.consultarOfertas(semestre.equals("*") ? null : semestre))
-            System.out.printf("ID %d | %s | %s | %s | %s | %s | %d/60 alunos%n",
-                    o.getId(), o.getSemestre(), o.getDisciplina().getCodigo() + " " + o.getDisciplina().getNome(),
-                    o.getProfessor().getNome(), o.getTipo(), o.getSituacao(), o.getInscritos());
+        List<Oferta> ofertas = sistema.consultarOfertas(semestre.equals("*") ? null : semestre);
+
+        System.out.println("\n========== OFERTAS ==========");
+
+        if (ofertas.isEmpty()) {
+            System.out.println("\nNenhuma oferta encontrada.");
+        } else {
+            for (Oferta o : ofertas) {
+                System.out.println();
+                System.out.println(o);
+            }
+        }
+        System.out.println("\n=============================");
     }
 
     private void aluno(String opcao, Aluno a) {
@@ -131,8 +165,7 @@ public class Main {
             }
             case "3":
                 for (Matricula m : a.getMatriculas())
-                    System.out.printf("ID %d | %s | %s | %s%n", m.getId(),
-                            m.getOferta().getSemestre(), m.getOferta().getDisciplina().getNome(), m.getSituacao());
+                    System.out.println(m);
                 break;
             case "4": {
                 long codigo = id();
@@ -148,12 +181,12 @@ public class Main {
         switch (opcao) {
             case "2":
                 for (Oferta o : p.getOfertas())
-                    System.out.println(o.getId() + " | " + o.getDisciplina().getNome() + " | " + o.getSemestre());
+                    System.out.println(o);
                 break;
             case "3": {
                 Oferta o = buscar(sistema.getOfertas(), Oferta::getId, id());
                 for (Aluno a : p.consultarAlunos(o))
-                    System.out.println(a.getMatricula() + " | " + a.getNome());
+                    System.out.println(a);
                 break;
             }
             default:
@@ -183,22 +216,39 @@ public class Main {
     }
 
     private void cadastros(Secretaria s) {
-        System.out.println("1 Aluno | 2 Professor | 3 Curso | 4 Disciplina | 5 Oferta | 6 Listar cadastros");
+        System.out.println(
+                "\n========== GERENCIAR CADASTROS ==========\n" +
+                        "\n--- CADASTRAR ---\n" +
+                        "1 - Cadastrar aluno\n" +
+                        "2 - Cadastrar professor\n" +
+                        "3 - Cadastrar curso\n" +
+                        "4 - Cadastrar disciplina\n" +
+                        "5 - Cadastrar oferta\n" +
+                        "\n--- LISTAR ---\n" +
+                        "6 - Listar alunos\n" +
+                        "7 - Listar professores\n" +
+                        "8 - Listar cursos\n" +
+                        "9 - Listar disciplinas\n" +
+                        "10 - Listar ofertas\n" +
+                        "11 - Listar períodos de matrícula\n" +
+                        "12 - Listar tudo\n" +
+                        "\n0 - Voltar\n" +
+                        "==========================================");
         switch (ler("Opção")) {
             case "1": {
                 String nome = ler("Nome"), login = ler("Login"), senha = ler("Senha"), registro = ler("Matrícula");
-                mudar(() -> s.cadastrarAluno(new Aluno(sistema.novoId(), nome, login, senha, registro)));
+                mudar(() -> s.cadastrarAluno(new Aluno(nome, login, senha, registro)));
                 break;
             }
             case "2": {
                 String nome = ler("Nome"), login = ler("Login"), senha = ler("Senha"),
                         registro = ler("Registro funcional");
-                mudar(() -> s.cadastrarProfessor(new Professor(sistema.novoId(), nome, login, senha, registro)));
+                mudar(() -> s.cadastrarProfessor(new Professor(nome, login, senha, registro)));
                 break;
             }
             case "3": {
                 String nome = ler("Nome"), creditos = ler("Créditos");
-                mudar(() -> s.cadastrarCurso(new Curso(sistema.novoId(), nome, Integer.parseInt(creditos))));
+                mudar(() -> s.cadastrarCurso(new Curso(nome, Integer.parseInt(creditos))));
                 break;
             }
             case "4": {
@@ -215,31 +265,80 @@ public class Main {
                 long curso = Long.parseLong(ler("ID do professor"));
                 String disciplina = ler("Código da disciplina");
                 Disciplina d = null;
+
                 for (Disciplina atual : sistema.getDisciplinas())
                     if (atual.getCodigo().equalsIgnoreCase(disciplina))
                         d = atual;
+
                 if (d == null)
                     throw new IllegalArgumentException("Disciplina não encontrada");
+
                 Disciplina escolhida = d;
-                mudar(() -> s.criarOferta(new Oferta(sistema.novoId(), semestre, tipo, escolhida,
+
+                mudar(() -> s.criarOferta(new Oferta(semestre, tipo, escolhida,
                         buscar(sistema.getProfessores(), Professor::getId, curso))));
                 break;
             }
             case "6":
-                for (Curso c : sistema.getCursos())
-                    System.out.println("Curso " + c.getId() + " " + c.getNome());
-                for (Disciplina d : sistema.getDisciplinas())
-                    System.out.println("Disciplina " + d.getCodigo() + " " + d.getNome());
-                for (Aluno a : sistema.getAlunos())
-                    System.out.println("Aluno " + a.getId() + " " + a.getNome() + " / " + a.getMatricula());
-                for (Professor p : sistema.getProfessores())
-                    System.out.println("Professor " + p.getId() + " " + p.getNome());
-                for (PeriodoMatricula p : sistema.getPeriodos())
-                    System.out.println("Período " + p.getSemestre() + " " + p.getInicio().format(FORMATO) + " a "
-                            + p.getFim().format(FORMATO) + " " + p.getSituacao());
+                listarCadastros("ALUNOS", sistema.getAlunos(),"Nenhum aluno cadastrado.");
                 break;
+
+            case "7":
+                listarCadastros("PROFESSORES", sistema.getProfessores(),"Nenhum professor cadastrado.");
+                break;
+
+            case "8":
+                listarCadastros("CURSOS", sistema.getCursos(),"Nenhum curso cadastrado.");
+                break;
+
+            case "9":
+                listarCadastros("DISCIPLINAS", sistema.getDisciplinas(),"Nenhuma disciplina cadastrada.");
+                break;
+
+            case "10":
+                listarCadastros("OFERTAS", sistema.getOfertas(),"Nenhuma oferta cadastrada.");
+                break;
+            case "11":
+                listarCadastros("PERÍODOS DE MATRÍCULA", sistema.getPeriodos(),"Nenhum período de matrícula cadastrado.");
+                break;
+            case "12":
+                listarTudo();
+                break;
+
+            case "0":
+                return;
             default:
                 System.out.println("Opção inválida.");
         }
+    }
+
+    private static void listarCadastros(String titulo, Collection<?> itens, String mensagemVazia) {
+        System.out.println("\n--- " + titulo + " ---");
+        if (itens.isEmpty()) {
+            System.out.println(mensagemVazia);
+            return;
+        }
+
+        for (Object item : itens) {
+            System.out.println(item);
+            System.out.println();
+        }
+    }
+
+    private void listarTudo() {
+        System.out.println("\n========== CADASTROS ==========");
+
+        listarCadastros("ALUNOS", sistema.getAlunos(), "Nenhum aluno cadastrado.");
+
+        listarCadastros("PROFESSORES", sistema.getProfessores(), "Nenhum professor cadastrado.");
+
+        listarCadastros("CURSOS", sistema.getCursos(), "Nenhum curso cadastrado.");
+
+        listarCadastros("DISCIPLINAS", sistema.getDisciplinas(), "Nenhuma disciplina cadastrada.");
+
+        listarCadastros("OFERTAS", sistema.getOfertas(), "Nenhuma oferta cadastrada.");
+
+        listarCadastros("PERÍODOS DE MATRÍCULA", sistema.getPeriodos(), "Nenhum período cadastrado.");
+        System.out.println("===============================");
     }
 }

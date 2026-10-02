@@ -8,13 +8,21 @@ public class Matricula implements Serializable {
     private SituacaoMatricula situacao;
     private final Aluno aluno;
     private final Oferta oferta;
+    private static long proximoId = 1;
 
-    public Matricula(Long id, Aluno aluno, Oferta oferta) {
-        this(id, aluno, oferta, LocalDateTime.now(), SituacaoMatricula.ATIVA);
+    public Matricula(Aluno aluno, Oferta oferta) {
+        this.id = proximoId++;
+        this.aluno = aluno;
+        this.oferta = oferta;
+        this.data = LocalDateTime.now();
+        this.situacao = SituacaoMatricula.ATIVA;
     }
 
     Matricula(Long id, Aluno aluno, Oferta oferta, LocalDateTime data, SituacaoMatricula situacao) {
         this.id = id;
+
+        if (id >= proximoId)  proximoId = id + 1;
+
         this.aluno = aluno;
         this.oferta = oferta;
         this.data = data;
@@ -43,5 +51,15 @@ public class Matricula implements Serializable {
 
     public void cancelar() {
         situacao = SituacaoMatricula.CANCELADA;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ID: %d | %s | %s | %s",
+                id,
+                oferta.getSemestre(),
+                oferta.getDisciplina().getNome(),
+                situacao);
     }
 }

@@ -6,12 +6,14 @@ public class Aluno extends Usuario {
     private final List<Matricula> matriculas = new ArrayList<>();
     private transient SistemaMatriculas sistema;
 
-    public Aluno(Long id, String nome, String login, String senha, String matricula) {
-        super(id, nome, login, senha);
+    public Aluno(String nome, String login, String senha, String matricula) {
+        super(nome, login, senha);
         this.matricula = matricula;
     }
 
-    Aluno(Long id, String nome, String login, String sal, String hashSenha, String matricula) {
+    Aluno(Long id, String nome, String login, String sal,
+            String hashSenha, String matricula) {
+
         super(id, nome, login, sal, hashSenha, true);
         this.matricula = matricula;
     }
@@ -42,5 +44,14 @@ public class Aluno extends Usuario {
 
     public void cancelarMatricula(Matricula matricula) {
         sistema.cancelarMatricula(this, matricula);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ID: %d | Matrícula: %s | %s",
+                getId(),
+                matricula,
+                getNome());
     }
 }

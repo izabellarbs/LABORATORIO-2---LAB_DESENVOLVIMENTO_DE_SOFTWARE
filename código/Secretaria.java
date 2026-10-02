@@ -2,8 +2,8 @@ public class Secretaria extends Usuario {
     private static final long serialVersionUID = 1L;
     private transient SistemaMatriculas sistema;
 
-    public Secretaria(Long id, String nome, String login, String senha) {
-        super(id, nome, login, senha);
+    public Secretaria(String nome, String login, String senha) {
+        super(nome, login, senha);
     }
 
     Secretaria(Long id, String nome, String login, String sal, String hashSenha) {

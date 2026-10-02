@@ -236,8 +236,16 @@ public class Main {
                         "==========================================");
         switch (ler("Opção")) {
             case "1": {
-                String nome = ler("Nome"), login = ler("Login"), senha = ler("Senha"), registro = ler("Matrícula");
-                mudar(() -> s.cadastrarAluno(new Aluno(nome, login, senha, registro)));
+                String nome = ler("Nome");
+                String login = ler("Login");
+                String senha = ler("Senha");
+
+                mudar(() -> {
+                    Aluno aluno = new Aluno(nome, login, senha);
+                    s.cadastrarAluno(aluno);
+                    System.out.println("Matrícula gerada: " + aluno.getMatricula());
+                });
+
                 break;
             }
             case "2": {

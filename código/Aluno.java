@@ -6,14 +6,12 @@ public class Aluno extends Usuario {
     private final List<Matricula> matriculas = new ArrayList<>();
     private transient SistemaMatriculas sistema;
 
-    public Aluno(String nome, String login, String senha, String matricula) {
+    public Aluno(String nome, String login, String senha) {
         super(nome, login, senha);
-        this.matricula = matricula;
+        this.matricula = String.valueOf(getId());
     }
 
-    Aluno(Long id, String nome, String login, String sal,
-            String hashSenha, String matricula) {
-
+    Aluno(Long id, String nome, String login, String sal, String hashSenha, String matricula) {
         super(id, nome, login, sal, hashSenha, true);
         this.matricula = matricula;
     }

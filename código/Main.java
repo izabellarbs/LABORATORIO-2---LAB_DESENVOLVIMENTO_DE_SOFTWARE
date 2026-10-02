@@ -18,9 +18,6 @@ public class Main {
         Path pasta = Paths.get(args.length > 0 ? args[0] : "dados");
         Path dados = pasta.resolve("dados.txt");
         Path cobrancas = pasta.resolve("notificacoes-cobranca.csv");
-        System.out.println("PASTA ATUAL: " + Paths.get("").toAbsolutePath());
-System.out.println("DADOS: " + dados.toAbsolutePath().normalize());
-System.out.println("EXISTE: " + Files.exists(dados));
         try {
             SistemaMatriculas sistema;
             if (Files.exists(dados))

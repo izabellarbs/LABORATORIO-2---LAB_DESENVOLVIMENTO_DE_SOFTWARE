@@ -14,6 +14,8 @@ public class SistemaMatriculas implements Serializable {
     private final List<Oferta> ofertas = new ArrayList<>();
     private final List<PeriodoMatricula> periodos = new ArrayList<>();
     private final SistemaCobrancas sistemaCobrancas;
+    private static final int LIMITE_OBRIGATORIA = 4;
+    private static final int LIMITE_OPTATIVA = 2;
 
     public SistemaMatriculas(Path arquivoCobrancas) {
         sistemaCobrancas = new SistemaCobrancas(arquivoCobrancas);
@@ -166,7 +168,7 @@ public class SistemaMatriculas implements Serializable {
             if (m.getOferta().getTipo() == oferta.getTipo())
                 qtd++;
         }
-        if (qtd >= (oferta.getTipo() == TipoOferta.OBRIGATORIA ? 4 : 2))
+        if (qtd >= (oferta.getTipo() == TipoOferta.OBRIGATORIA ? LIMITE_OBRIGATORIA : LIMITE_OPTATIVA))
             throw new IllegalArgumentException("Limite de opções desse tipo atingido");
         Matricula m = new Matricula(aluno, oferta);
         sistemaCobrancas.notificarMatricula(m);
